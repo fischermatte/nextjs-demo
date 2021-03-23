@@ -1,36 +1,24 @@
 import {Phrase} from '../shared/phrase.types'
-import * as faunadb from 'faunadb'
-
-const q = faunadb.query
 
 class PhraseRepository {
-  constructor(private faunaClient: faunadb.Client) {}
+  private db = {
+    'p-1': {
+      id: 'p-1',
+      title: 'A dynamic fetched title',
+      text: 'A dynamic fetched text',
+      totalLikes: 0,
+    },
+  }
 
   async getById(id: string): Promise<Phrase> {
-    console.info('requesting data from fauna db...')
-    const result: {data: Phrase} = await this.faunaClient.query(q.Get(q.Ref(q.Collection('phrases'), id)))
-    console.info(`received faunadb response ${JSON.stringify(result)}`)
-    return result.data
+    return this.db[id]
   }
 
   async like(id: string): Promise<Phrase> {
-    const result: {data: Phrase} = await this.faunaClient.query(
-      q.Update(q.Ref(q.Collection('phrases'), id), {
-        data: {
-          totalLikes: q.Add(1, q.Select(['data', 'totalLikes'], q.Get(q.Ref(q.Collection('phrases'), id)))),
-        },
-      }),
-    )
-    return result.data
+    const phrase = await this.getById(id)
+    phrase.totalLikes = phrase.totalLikes + 1
+    return phrase
   }
 }
 
-if (!process.env.FAUNA_SERVER_KEY) {
-  console.error('missing FAUNA_SERVER_KEY')
-}
-
-export const phraseRepository = new PhraseRepository(
-  new faunadb.Client({
-    secret: process.env.FAUNA_SERVER_KEY,
-  }),
-)
+export const phraseRepository = new PhraseRepository()

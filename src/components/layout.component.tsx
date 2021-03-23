@@ -2,11 +2,9 @@ import React, {PropsWithChildren} from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
 import styles from './layout.component.module.css'
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faGithub, faGitlab, faStackOverflow, faTwitter} from '@fortawesome/free-brands-svg-icons'
 import packageJson from '../../package.json'
 import {useRouter} from 'next/router'
-import {head} from '../core/client/content/head'
+import {head} from '../../content/head'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -23,7 +21,7 @@ const LayoutComponent: React.FunctionComponent<PropsWithChildren<Props>> = (prop
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <meta name="keywords" content={head[page]?.keywords} />
         <meta name="description" content={head[page]?.description} />
-        <meta prefix="og: http://ogp.me/ns#" property="og:url" content="https://fischermatte.dev" />
+        <meta prefix="og: http://ogp.me/ns#" property="og:url" content="https://nextjs-demo.netlify.com" />
         <meta prefix="og: http://ogp.me/ns#" property="og:type" content="website" />
         <meta prefix="og: http://ogp.me/ns#" property="og:title" content={head[page]?.title} />
         <meta prefix="og: http://ogp.me/ns#" property="og:description" content={head[page]?.description} />
@@ -35,8 +33,8 @@ const LayoutComponent: React.FunctionComponent<PropsWithChildren<Props>> = (prop
         />
         <meta name="twitter:card" content="summary_large_image" />
         <meta property="twitter:domain" content="fischermatte.dev" />
-        <meta property="twitter:url" content="https://fischermatte.dev" />
-        <meta name="twitter:image" content="https://fischermatte.dev/logo.png" />
+        <meta property="twitter:url" content="https://nextjs-demo.netlify.com" />
+        <meta name="twitter:image" content="https://nextjs-demo.netlify.com/logo.png" />
         <meta name="twitter:title" content={head[page]?.title} />
         <meta name="twitter:description" content={head[page]?.description} />
 
@@ -51,8 +49,8 @@ const LayoutComponent: React.FunctionComponent<PropsWithChildren<Props>> = (prop
             <Link href="/">
               <a className="py-3 px-5 text-accent-dark">
                 <div className="flex flex-col lowercase">
-                  <div className="text-lg">Fischermatte</div>
-                  <div className="text-xs ml-6 self-end">Cloud Software Engineer</div>
+                  <div className="text-lg">Next.js</div>
+                  <div className="text-xs ml-6 self-end">Demo App</div>
                 </div>
               </a>
             </Link>
@@ -63,12 +61,6 @@ const LayoutComponent: React.FunctionComponent<PropsWithChildren<Props>> = (prop
           <Link href="/">
             <a className={router.pathname == '/' ? styles.navLinkActive : styles.navLink}>Home</a>
           </Link>
-          <Link href="/resume">
-            <a className={router.pathname == '/resume' ? styles.navLinkActive : styles.navLink}>Resume</a>
-          </Link>
-          <Link href="/projects">
-            <a className={router.pathname == '/projects' ? styles.navLinkActive : styles.navLink}>Projects</a>
-          </Link>
           <Link href="/contact">
             <a className={router.pathname == '/contact' ? styles.navLinkActive : styles.navLink}>Contact</a>
           </Link>
@@ -76,27 +68,9 @@ const LayoutComponent: React.FunctionComponent<PropsWithChildren<Props>> = (prop
       </header>
       <main className="py-6">{props.children}</main>
       <footer className="py-6 text-center">
-        <div className="flex p-6 text-3xl justify-center p-5 space-x-4">
-          <a href="https://twitter.com/fischermatte" title="fischermatte on Twitter">
-            <FontAwesomeIcon className="link" icon={faTwitter} />
-          </a>
-          <a
-            href="https://stackoverflow.com/users/524906/fischermatte?tab=profile"
-            title="fischermatte on Stackoverflow"
-          >
-            <FontAwesomeIcon className="link" icon={faStackOverflow} />
-          </a>
-          <a href="https://github.com/fischermatte" title="fischermatte on Github">
-            <FontAwesomeIcon className="link" icon={faGithub} />
-          </a>
-          <a href="https://gitlab.com/fischermatte" title="fischermatte on Gitlab">
-            <FontAwesomeIcon className="link" icon={faGitlab} />
-          </a>
-        </div>
-        <div className="text-sm">© fischermatte 2020</div>
         <div className="text-xs mt-2  opacity-60">
           <a
-            href="https://github.com/fischermatte/fischermatte-next"
+            href="https://github.com/fischermatte/nextjs-demo"
             target="_blank"
             rel="noreferrer"
             title="View the fancy code of this site on Github"

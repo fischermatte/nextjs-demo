@@ -60,8 +60,9 @@ const PhraseDialog: React.FC<Props> = props => {
         {!loading && !error && (
           <div>
             <div className="font-bold py-2 text-lg">{phrase.title}</div>
+            <div className="mb-2">{phrase.text}</div>
             <div className="mb-2">
-              {phrase.text} Please click the like button so a counter in a fancy cloud database can be increased.
+              Please click the like button if you like the dynamic content.
               <div className="py-4 text-accent-dark select-none ">
                 <div className="text-4xl">
                   <a
