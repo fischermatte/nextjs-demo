@@ -36,7 +36,7 @@ const Comments: React.FC<Props> = props => {
     setModalOpen(true)
   }
 
-  const closeCommentDialo = (e: BaseSyntheticEvent): void => {
+  const closeCommentDialog = (e: BaseSyntheticEvent): void => {
     e.preventDefault()
     setModalOpen(false)
   }
@@ -86,7 +86,7 @@ const Comments: React.FC<Props> = props => {
                 >
                   Edit
                 </a>
-                {modalOpen && <CommentDetailDialog commentId={comment.id} onClose={closeCommentDialo} />}
+                {modalOpen && <CommentDetailDialog commentId={comment.id} onClose={closeCommentDialog} />}
 
                 <a className="link underline text-accent-normal ml-4">Delete</a>
               </td>
