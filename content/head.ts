@@ -1,8 +1,7 @@
 export const head = {
   index: {
     title: 'Next.js Demo',
-    description:
-      'Next.js Demo Application',
+    description: 'Next.js Demo Application',
     keywords: 'Next.js Demo',
   },
   contact: {

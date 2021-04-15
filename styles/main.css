@@ -9,3 +9,7 @@
 @import 'typography.css';
 
 @import 'tailwindcss/utilities.css';
+
+.btn {
+  @apply py-2 px-4 rounded text-accent-dark bg-accent-normal;
+}

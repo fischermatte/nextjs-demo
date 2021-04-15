@@ -1,4 +1,4 @@
-export interface Phrase {
+export interface Comment {
   id: string
   title: string
   text: string

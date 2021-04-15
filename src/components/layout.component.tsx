@@ -61,6 +61,9 @@ const LayoutComponent: React.FunctionComponent<PropsWithChildren<Props>> = (prop
           <Link href="/">
             <a className={router.pathname == '/' ? styles.navLinkActive : styles.navLink}>Home</a>
           </Link>
+          <Link href="/comments">
+            <a className={router.pathname == '/comments' ? styles.navLinkActive : styles.navLink}>Comments</a>
+          </Link>
           <Link href="/contact">
             <a className={router.pathname == '/contact' ? styles.navLinkActive : styles.navLink}>Contact</a>
           </Link>

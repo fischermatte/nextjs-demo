@@ -1,0 +1,6 @@
+.commentsTable {
+}
+.commentsTable th,
+.commentsTable td {
+    @apply border border-accent-normal p-4
+}

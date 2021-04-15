@@ -1,38 +1,23 @@
 import React, {BaseSyntheticEvent, useEffect, useState} from 'react'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faThumbsUp} from '@fortawesome/free-solid-svg-icons'
-import {ajax} from 'rxjs/ajax'
-import {Phrase} from '../core/shared/phrase.types'
-import {Observable} from 'rxjs'
-import {map, take, timeout} from 'rxjs/operators'
+import {Comment} from '../core/shared/comment.types'
+import {api} from '../core/client/api'
 
 interface Props {
-  phraseId: string
+  commentId: string
   onClose: (e: BaseSyntheticEvent) => void
 }
 
-const api = {
-  getPhraseById(phraseId: string): Observable<Phrase> {
-    return ajax.getJSON<Phrase>(`api/phrases/${phraseId}`).pipe(timeout(5000), take(1))
-  },
-  likePhrase(phraseId: string): Observable<number> {
-    return ajax.post(`api/phrases/${phraseId}/like`).pipe(
-      timeout(5000),
-      take(1),
-      map(resp => resp.response.totalLikes),
-    )
-  },
-}
-
-const PhraseDialog: React.FC<Props> = props => {
-  const [phrase, setPhrase] = useState<Phrase>({} as any)
+const CommentDetailDialog: React.FC<Props> = props => {
+  const [comment, setComment] = useState<Comment>({} as any)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
 
   useEffect(() => {
-    const subscription = api.getPhraseById(props.phraseId).subscribe(
-      (phrase: Phrase) => {
-        setPhrase(phrase)
+    const subscription = api.getCommentById(props.commentId).subscribe(
+      (comment: Comment) => {
+        setComment(comment)
         setLoading(false)
         setError(false)
       },
@@ -42,13 +27,13 @@ const PhraseDialog: React.FC<Props> = props => {
       },
     )
     return () => subscription.unsubscribe()
-  }, [props.phraseId])
+  }, [props.commentId])
 
   function onLike(event: BaseSyntheticEvent): void {
     event.stopPropagation()
-    api.likePhrase(props.phraseId).subscribe(totalLikes => {
-      setPhrase({
-        ...phrase,
+    api.incrementLikesOnComment(props.commentId).subscribe(totalLikes => {
+      setComment({
+        ...comment,
         totalLikes,
       })
     })
@@ -59,8 +44,8 @@ const PhraseDialog: React.FC<Props> = props => {
         {loading && <div className="py-2">Loading...</div>}
         {!loading && !error && (
           <div>
-            <div className="font-bold py-2 text-lg">{phrase.title}</div>
-            <div className="mb-2">{phrase.text}</div>
+            <div className="font-bold py-2 text-lg">{comment.title}</div>
+            <div className="mb-2">{comment.text}</div>
             <div className="mb-2">
               Please click the like button if you like the dynamic content.
               <div className="py-4 text-accent-dark select-none ">
@@ -76,7 +61,7 @@ const PhraseDialog: React.FC<Props> = props => {
                     }}
                   >
                     <FontAwesomeIcon icon={faThumbsUp} />
-                    <span className="ml-2">{phrase.totalLikes}</span>
+                    <span className="ml-2">{comment.totalLikes}</span>
                   </a>
                 </div>
               </div>
@@ -100,4 +85,4 @@ const PhraseDialog: React.FC<Props> = props => {
     </div>
   )
 }
-export default PhraseDialog
+export default CommentDetailDialog
