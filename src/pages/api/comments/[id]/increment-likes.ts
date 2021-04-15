@@ -8,8 +8,8 @@ export default async function incrementLikes(
   res: NextApiResponse<Pick<Comment, 'totalLikes'> | ErrorResponseBody>,
 ): Promise<void> {
   try {
-    const phrase = await commentRepository.incrementLike(req.query.id as string)
-    res.status(200).json({totalLikes: phrase.totalLikes})
+    const comment = await commentRepository.incrementLike(req.query.id as string)
+    res.status(200).json({totalLikes: comment.totalLikes})
   } catch (e) {
     // something went wrong
     res.status(500).json({error: e.message})

@@ -1,14 +1,7 @@
 import {Comment} from '../shared/comment.types'
 
 class PhraseRepository {
-  private db = {
-    'c-1': {
-      id: 'c-1',
-      title: 'A dynamic fetched title',
-      text: 'A dynamic fetched text',
-      totalLikes: 0,
-    },
-  }
+  private db = {}
 
   async getById(id: string): Promise<Comment> {
     return this.db[id]
@@ -22,6 +15,11 @@ class PhraseRepository {
 
   async getAll(): Promise<Comment[]> {
     return Object.values(this.db)
+  }
+
+  async add(comment: Comment): Promise<Comment> {
+    this.db[comment.id] = comment
+    return Promise.resolve(comment)
   }
 }
 

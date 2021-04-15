@@ -47,7 +47,6 @@ const CommentDetailDialog: React.FC<Props> = props => {
             <div className="font-bold py-2 text-lg">{comment.title}</div>
             <div className="mb-2">{comment.text}</div>
             <div className="mb-2">
-              Please click the like button if you like the dynamic content.
               <div className="py-4 text-accent-dark select-none ">
                 <div className="text-4xl">
                   <a
