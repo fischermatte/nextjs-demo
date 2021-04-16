@@ -9,7 +9,7 @@ class PhraseRepository {
 
   async incrementLike(id: string): Promise<Comment> {
     const phrase = await this.getById(id)
-    phrase.totalLikes = phrase.totalLikes + 1
+    phrase.likes = phrase.likes + 1
     return phrase
   }
 

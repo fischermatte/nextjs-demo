@@ -34,7 +34,7 @@ const CommentDetailDialog: React.FC<Props> = props => {
     api.incrementLikesOnComment(props.commentId).subscribe(totalLikes => {
       setComment({
         ...comment,
-        totalLikes,
+        likes: totalLikes,
       })
     })
   }
@@ -60,7 +60,7 @@ const CommentDetailDialog: React.FC<Props> = props => {
                     }}
                   >
                     <FontAwesomeIcon icon={faThumbsUp} />
-                    <span className="ml-2">{comment.totalLikes}</span>
+                    <span className="ml-2">{comment.likes}</span>
                   </a>
                 </div>
               </div>

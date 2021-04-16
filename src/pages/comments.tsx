@@ -48,7 +48,7 @@ const Comments: React.FC<Props> = props => {
         id: v4(),
         text: 'some text',
         title: 'some title',
-        totalLikes: 0,
+        likes: 0,
       })
       .pipe(switchMap(() => api.getComments()))
       .subscribe(comments => {
