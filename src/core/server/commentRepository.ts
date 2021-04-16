@@ -1,6 +1,6 @@
 import {Comment} from '../shared/comment.types'
 
-class PhraseRepository {
+class CommentRepository {
   private db = {}
 
   async getById(id: string): Promise<Comment> {
@@ -23,4 +23,4 @@ class PhraseRepository {
   }
 }
 
-export const commentRepository = new PhraseRepository()
+export const commentRepository = new CommentRepository()
