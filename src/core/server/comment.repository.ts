@@ -1,7 +1,6 @@
 import {Comment} from '../shared/comment.types'
-import {v4} from 'uuid'
 
-class CommentRepository {
+class InMemoryCommentRepository {
   private db = {}
 
   async getById(id: string): Promise<Comment> {
@@ -27,10 +26,26 @@ class CommentRepository {
   }
 }
 
-export const commentRepository = new CommentRepository()
-commentRepository.add({
-  id: v4(),
-  title: 'example-title',
-  text: 'example-text',
-  likes: 0,
-})
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+class ContentfulCommentRepository {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  async getById(id: string): Promise<Comment> {
+    throw new Error('not yet implemented')
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  async incrementLike(id: string): Promise<Comment> {
+    throw new Error('not yet implemented')
+  }
+
+  async getAll(): Promise<Comment[]> {
+    throw new Error('not yet implemented')
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  async add(comment: Comment): Promise<Comment> {
+    throw new Error('not yet implemented')
+  }
+}
+
+export const commentRepository = new InMemoryCommentRepository()

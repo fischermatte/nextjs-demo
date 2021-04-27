@@ -1,6 +1,6 @@
 import {ApolloClient, InMemoryCache} from '@apollo/client'
 
-const graphqlClient = new ApolloClient({
+const contentfulGraphqlClient = new ApolloClient({
   uri: `https://graphql.contentful.com/content/v1/spaces/${process.env.CONTENTFUL_SPACE_ID}/environments/master`,
   headers: {
     authorization: `Bearer ${process.env.CONTENTFUL_ACCESS_TOKEN}`,
@@ -9,4 +9,4 @@ const graphqlClient = new ApolloClient({
   cache: new InMemoryCache(),
 })
 
-export default graphqlClient
+export default contentfulGraphqlClient
