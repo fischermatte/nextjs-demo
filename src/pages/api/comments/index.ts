@@ -1,7 +1,7 @@
 import {NextApiRequest, NextApiResponse} from 'next'
 import {Comment} from '../../../core/shared/comment.types'
 import {ErrorResponseBody} from '../../../core/server/error.types'
-import {commentRepository} from '../../../core/server/commentRepository'
+import {commentRepository} from '../../../core/server/comment.repository'
 
 export default async function getComments(
   req: NextApiRequest,

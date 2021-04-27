@@ -15,15 +15,18 @@ const CommentDetailDialog: React.FC<Props> = props => {
   const [error, setError] = useState(false)
 
   useEffect(() => {
+    console.info(`comment id: ${props.commentId}`)
     const subscription = api.getCommentById(props.commentId).subscribe(
       (comment: Comment) => {
+        console.info(`received comment ${comment?.text}`)
         setComment(comment)
         setLoading(false)
         setError(false)
       },
-      () => {
+      (error: any) => {
         setLoading(false)
         setError(true)
+        console.error('failed to load comment', error)
       },
     )
     return () => subscription.unsubscribe()
@@ -44,8 +47,8 @@ const CommentDetailDialog: React.FC<Props> = props => {
         {loading && <div className="py-2">Loading...</div>}
         {!loading && !error && (
           <div>
-            <div className="font-bold py-2 text-lg">{comment.title}</div>
-            <div className="mb-2">{comment.text}</div>
+            <div className="font-bold py-2 text-lg">{comment?.title}</div>
+            <div className="mb-2">{comment?.text}</div>
             <div className="mb-2">
               <div className="py-4 text-accent-dark select-none ">
                 <div className="text-4xl">
@@ -60,7 +63,7 @@ const CommentDetailDialog: React.FC<Props> = props => {
                     }}
                   >
                     <FontAwesomeIcon icon={faThumbsUp} />
-                    <span className="ml-2">{comment.likes}</span>
+                    <span className="ml-2">{comment?.likes}</span>
                   </a>
                 </div>
               </div>

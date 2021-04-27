@@ -1,9 +1,13 @@
 import {Comment} from '../shared/comment.types'
+import {v4} from 'uuid'
 
 class CommentRepository {
   private db = {}
 
   async getById(id: string): Promise<Comment> {
+    if (!this.db[id]) {
+      throw new Error(`comment with id ${id} not found`)
+    }
     return this.db[id]
   }
 
@@ -24,3 +28,9 @@ class CommentRepository {
 }
 
 export const commentRepository = new CommentRepository()
+commentRepository.add({
+  id: v4(),
+  title: 'example-title',
+  text: 'example-text',
+  likes: 0,
+})

@@ -4,7 +4,7 @@ import React, {BaseSyntheticEvent, useState} from 'react'
 import styles from './comments.module.css'
 import {GetServerSideProps, GetServerSidePropsContext} from 'next'
 import {Comment} from '../core/shared/comment.types'
-import {commentRepository} from '../core/server/commentRepository'
+import {commentRepository} from '../core/server/comment.repository'
 import {api} from '../core/client/api'
 import {v4} from 'uuid'
 import {switchMap} from 'rxjs/operators'
@@ -27,6 +27,18 @@ export const getServerSideProps: GetServerSideProps<Props> = async (context: Get
     },
   }
 }
+
+// export const getStaticProps: GetStaticProps<Props> = async () => {
+//   const comments: Comment[] = await commentRepository.getAll().catch(error => {
+//     console.error(error)
+//     return []
+//   })
+//   return {
+//     props: {
+//       comments,
+//     },
+//   }
+// }
 
 const Comments: React.FC<Props> = props => {
   const [modalOpen, setModalOpen] = useState(false)
