@@ -4,6 +4,7 @@ import {ManagementClient} from './contentful-management-client'
 import {CommentType} from './contentful-management-client.test'
 import {createGraphqlClient} from './contentful-content-client'
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 class InMemoryCommentRepository {
   private db = {}
 
