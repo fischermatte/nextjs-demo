@@ -1,22 +1,14 @@
 import {ClientAPI, createClient} from 'contentful-management'
 import {Entry, EntryProps, Environment} from 'contentful-management/types'
 
-class ClientApiFactory {
-  private static instance: ClientAPI
-
-  public static getInstance(): ClientAPI {
-    if (!this.instance) {
-      this.instance = createClient({
-        accessToken: process.env.CONTENTFUL_MANAGEMENT_ACCESS_TOKEN,
-        space: process.env.CONTENTFUL_SPACE_ID,
-      })
-    }
-    return this.instance
-  }
-}
+const createClientApi = () =>
+  createClient({
+    accessToken: process.env.CONTENTFUL_MANAGEMENT_ACCESS_TOKEN,
+    space: process.env.CONTENTFUL_SPACE_ID,
+  })
 
 export class ManagementClient {
-  constructor(private clientApi: ClientAPI = ClientApiFactory.getInstance()) {}
+  constructor(private clientApi: ClientAPI = createClientApi()) {}
 
   private async getEnvironment(): Promise<Environment> {
     const spaces = await this.clientApi.getSpaces()

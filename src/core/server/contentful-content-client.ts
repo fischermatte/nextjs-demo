@@ -1,19 +1,28 @@
-import {ApolloClient, InMemoryCache} from '@apollo/client'
+import {ApolloClient, createHttpLink, InMemoryCache} from '@apollo/client'
+import {setContext} from '@apollo/client/link/context'
+import 'cross-fetch/polyfill';
 
-export class ContentClientFactory {
-  private static instance: ApolloClient<unknown>
+export function createApolloClient(): ApolloClient<unknown> {
+  const httpLink = createHttpLink({
+    uri: `https://graphql.contentful.com/content/v1/spaces/${process.env.CONTENTFUL_SPACE_ID}/environments/master`,
+  })
 
-  public static getInstance(): ApolloClient<unknown> {
-    if (!this.instance) {
-      this.instance = new ApolloClient({
-        uri: `https://graphql.contentful.com/content/v1/spaces/${process.env.CONTENTFUL_SPACE_ID}/environments/master`,
-        headers: {
-          authorization: `Bearer ${process.env.CONTENTFUL_ACCESS_TOKEN}`,
-          'Content-Language': 'en-us',
-        },
-        cache: new InMemoryCache(),
-      })
+  const authLink = setContext((_, {headers}) => {
+    return {
+      headers: {
+        ...headers,
+        authorization: `Bearer ${process.env.CONTENTFUL_ACCESS_TOKEN}`,
+      },
     }
-    return this.instance
-  }
+  })
+  return new ApolloClient({
+    uri: `https://graphql.contentful.com/content/v1/spaces/${process.env.CONTENTFUL_SPACE_ID}/environments/master`,
+    ssrMode: true,
+    headers: {
+      authorization: `Bearer ${process.env.CONTENTFUL_ACCESS_TOKEN}`,
+      'Content-Language': 'en-us',
+    },
+    link: authLink.concat(httpLink),
+    cache: new InMemoryCache(),
+  })
 }
