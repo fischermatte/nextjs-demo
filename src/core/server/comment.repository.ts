@@ -47,8 +47,7 @@ export class ContentfulCommentRepository {
 
   async incrementLike(id: string): Promise<Comment> {
     const comment = await this.getById(id)
-    comment.likes = comment.likes++
-    await this.managementClient.updateEntryFields<CommentType>(id, {
+    const entry = await this.managementClient.updateEntryFields<CommentType>(id, {
       fields: {
         text: {
           'en-US': comment.text,
@@ -57,11 +56,16 @@ export class ContentfulCommentRepository {
           'en-US': comment.title,
         },
         likes: {
-          'en-US': comment.likes,
+          'en-US': comment.likes + 1,
         },
       },
     })
-    return comment
+    return {
+      id,
+      title: entry.fields.title['en-US'],
+      text: entry.fields.text['en-US'],
+      likes: entry.fields.likes['en-US'],
+    }
   }
 
   async getAll(): Promise<Comment[]> {

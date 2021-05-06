@@ -29,7 +29,7 @@ export class ManagementClient {
     const entry = await this.getEntry(id)
     entry.fields = entryProps.fields
     const updatedEntry = await entry.update()
-    await entry.publish()
+    await updatedEntry.publish()
     return updatedEntry.toPlainObject() as EntryProps<T>
   }
 

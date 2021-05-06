@@ -76,6 +76,7 @@ const Comments: React.FC<Props> = props => {
           <tr>
             <th>ID</th>
             <th>Comment</th>
+            <th>Likes</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -84,6 +85,7 @@ const Comments: React.FC<Props> = props => {
             <tr key={comment.id}>
               <td>{comment.id}</td>
               <td>{comment.text}</td>
+              <td>{comment.likes}</td>
               <td>
                 <a
                   role="button"
