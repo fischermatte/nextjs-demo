@@ -6,5 +6,6 @@ export default async (): Promise<Config.InitialOptions> => {
     testEnvironment: 'node',
     setupFilesAfterEnv: ['@testing-library/jest-dom'],
     globalSetup: '<rootDir>/jest.config.env.ts',
+    testTimeout: 30000,
   }
 }

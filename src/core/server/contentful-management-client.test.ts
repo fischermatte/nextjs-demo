@@ -1,15 +1,23 @@
-import {ClientFactory} from './contentful-management-client'
+import {ManagementClient} from './contentful-management-client'
 
-describe('contenful tests', () => {
-  test('get spaces ', async () => {
-    const spaces = await ClientFactory.getInstance().getSpaces()
-    expect(spaces).toBeDefined()
+export interface LocaleString {
+  'en-US': string
+}
 
-    const space = await ClientFactory.getInstance().getSpace(process.env.CONTENTFUL_SPACE_ID)
-    const env = await space.getEnvironment('master')
-    const commentType = await env.getContentType('comment')
-    const snapshots = await commentType.getSnapshots()
-    const data = snapshots.items.map(i => i.toPlainObject())
-    expect(data).toBeDefined()
-  })
+export interface LocaleNumber {
+  'en-US': number
+}
+
+export interface CommentType {
+  text: LocaleString
+  title: LocaleString
+  likes: LocaleNumber
+}
+
+test('ManagementClient', async () => {
+  const client = new ManagementClient()
+  const entry = await client.getEntryProps<CommentType>('5rGWvPHRDXQkkUV9ww7Ac3')
+  entry.fields.likes['en-US'] = entry.fields.likes['en-US'] + 1
+  const updatedEntryProps = await client.updateEntryProps<CommentType>(entry)
+  expect(updatedEntryProps.fields.likes['en-US']).toEqual(entry.fields.likes['en-US'])
 })
