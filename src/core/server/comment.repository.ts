@@ -31,10 +31,10 @@ class InMemoryCommentRepository {
 }
 
 export class ContentfulCommentRepository {
-  constructor(private gqlClient: Sdk, private managementClient: ManagementClient) {}
+  constructor(private contentReader: Sdk, private contentWriter: ManagementClient) {}
 
   async getById(id: string): Promise<Comment> {
-    const result = await this.gqlClient.GetCommentById({
+    const result = await this.contentReader.GetCommentById({
       id,
     })
     return {
@@ -47,7 +47,7 @@ export class ContentfulCommentRepository {
 
   async incrementLike(id: string): Promise<Comment> {
     const comment = await this.getById(id)
-    const entry = await this.managementClient.updateEntryFields<CommentType>(id, {
+    const entry = await this.contentWriter.updateEntryFields<CommentType>(id, {
       fields: {
         text: {
           'en-US': comment.text,
@@ -69,7 +69,7 @@ export class ContentfulCommentRepository {
   }
 
   async getAll(): Promise<Comment[]> {
-    const result = await this.gqlClient.GetAllComments()
+    const result = await this.contentReader.GetAllComments()
     return result.commentCollection.items.map(i => {
       return {
         id: i.sys.id,
@@ -81,7 +81,7 @@ export class ContentfulCommentRepository {
   }
 
   async add(comment: NewComment): Promise<Comment> {
-    const entry = await this.managementClient.createEntry<CommentType>('comment', {
+    const entry = await this.contentWriter.createEntry<CommentType>('comment', {
       fields: {
         text: {
           'en-US': comment.text,
