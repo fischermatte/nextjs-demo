@@ -1,10 +1,11 @@
 import {ApolloClient, createHttpLink, InMemoryCache} from '@apollo/client'
 import {setContext} from '@apollo/client/link/context'
-import 'cross-fetch/polyfill';
+import 'cross-fetch/polyfill'
 
 export function createApolloClient(): ApolloClient<unknown> {
+  const uri = `https://graphql.contentful.com/content/v1/spaces/${process.env.CONTENTFUL_SPACE_ID}/environments/master`
   const httpLink = createHttpLink({
-    uri: `https://graphql.contentful.com/content/v1/spaces/${process.env.CONTENTFUL_SPACE_ID}/environments/master`,
+    uri,
   })
 
   const authLink = setContext((_, {headers}) => {
@@ -16,8 +17,7 @@ export function createApolloClient(): ApolloClient<unknown> {
     }
   })
   return new ApolloClient({
-    uri: `https://graphql.contentful.com/content/v1/spaces/${process.env.CONTENTFUL_SPACE_ID}/environments/master`,
-    ssrMode: true,
+    uri,
     headers: {
       authorization: `Bearer ${process.env.CONTENTFUL_ACCESS_TOKEN}`,
       'Content-Language': 'en-us',
