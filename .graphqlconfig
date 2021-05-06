@@ -1,0 +1,4 @@
+{
+  "name": "Contentful GraphQL API",
+  "schemaPath": "src/graphql/__generated__/schema.graphql.json"
+}

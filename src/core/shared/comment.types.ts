@@ -4,3 +4,5 @@ export interface Comment {
   text: string
   likes: number
 }
+
+export type NewComment = Omit<Comment, 'id'>

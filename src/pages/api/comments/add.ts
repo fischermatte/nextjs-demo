@@ -1,14 +1,14 @@
 import {NextApiRequest, NextApiResponse} from 'next'
-import {Comment} from '../../../core/shared/comment.types'
+import {NewComment} from '../../../core/shared/comment.types'
 import {commentRepository} from '../../../core/server/comment.repository'
 import {ErrorResponseBody} from '../../../core/server/error.types'
 
-export default async function incrementLikes(
+export default async function addComment(
   req: NextApiRequest,
-  res: NextApiResponse<Comment | ErrorResponseBody>,
+  res: NextApiResponse<NewComment | ErrorResponseBody>,
 ): Promise<void> {
   try {
-    const comment = await commentRepository.add(req.body as Comment)
+    const comment = await commentRepository.add(req.body as NewComment)
     res.status(200).json(comment)
   } catch (e) {
     // something went wrong

@@ -1,4 +1,8 @@
-import {Comment} from '../shared/comment.types'
+import {Comment, NewComment} from '../shared/comment.types'
+import {Sdk} from '../../graphql/__generated__/graphql'
+import {ManagementClient} from './contentful-management-client'
+import {CommentType} from './contentful-management-client.test'
+import {createGraphqlClient} from './contentful-content-client'
 
 class InMemoryCommentRepository {
   private db = {}
@@ -26,26 +30,74 @@ class InMemoryCommentRepository {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-class ContentfulCommentRepository {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+export class ContentfulCommentRepository {
+  constructor(private gqlClient: Sdk, private managementClient: ManagementClient) {}
+
   async getById(id: string): Promise<Comment> {
-    throw new Error('not yet implemented')
+    const result = await this.gqlClient.GetCommentById({
+      id,
+    })
+    return {
+      id: result.comment.sys.id,
+      text: result.comment.text,
+      title: result.comment.title,
+      likes: result.comment.likes,
+    }
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async incrementLike(id: string): Promise<Comment> {
-    throw new Error('not yet implemented')
+    const comment = await this.getById(id)
+    comment.likes = comment.likes++
+    await this.managementClient.updateEntryFields<CommentType>(id, {
+      fields: {
+        text: {
+          'en-US': comment.text,
+        },
+        title: {
+          'en-US': comment.title,
+        },
+        likes: {
+          'en-US': comment.likes,
+        },
+      },
+    })
+    return comment
   }
 
   async getAll(): Promise<Comment[]> {
-    throw new Error('not yet implemented')
+    const result = await this.gqlClient.GetAllComments()
+    return result.commentCollection.items.map(i => {
+      return {
+        id: i.sys.id,
+        text: i.text,
+        likes: i.likes,
+        title: i.title,
+      }
+    })
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  async add(comment: Comment): Promise<Comment> {
-    throw new Error('not yet implemented')
+  async add(comment: NewComment): Promise<Comment> {
+    const entry = await this.managementClient.createEntry<CommentType>('comment', {
+      fields: {
+        text: {
+          'en-US': comment.text,
+        },
+        title: {
+          'en-US': comment.title,
+        },
+        likes: {
+          'en-US': comment.likes,
+        },
+      },
+    })
+    return {
+      id: entry.sys.id,
+      text: entry.fields.text['en-US'],
+      title: entry.fields.title['en-US'],
+      likes: entry.fields.likes['en-US'],
+    }
   }
 }
 
-export const commentRepository = new InMemoryCommentRepository()
+// export const commentRepository = new InMemoryCommentRepository()
+export const commentRepository = new ContentfulCommentRepository(createGraphqlClient(), new ManagementClient())

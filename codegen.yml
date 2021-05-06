@@ -1,12 +1,17 @@
 overwrite: true
-schema: "http://localhost:4000"
-documents: "src/**/*.graphql"
+schema:
+  - https://graphql.contentful.com/content/v1/spaces/${CONTENTFUL_SPACE_ID}/environments/master:
+      headers:
+        Authorization: 'Bearer ${CONTENTFUL_ACCESS_TOKEN}'
+documents: 'src/**/*.graphql'
 generates:
-  src/generated/graphql.tsx:
+  src/graphql/__generated__/schema.graphql.json:
     plugins:
-      - "typescript"
-      - "typescript-operations"
-      - "typescript-react-apollo"
-  ./graphql.schema.json:
+      - 'introspection'
+  src/graphql/__generated__/graphql.ts:
+#  src/graphql/__generated__/graphql.tsx:
     plugins:
-      - "introspection"
+      - 'typescript'
+      - 'typescript-operations'
+#      - 'typescript-react-apollo'
+      - 'typescript-graphql-request'

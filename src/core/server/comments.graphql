@@ -1,0 +1,24 @@
+query GetAllComments {
+  commentCollection {
+    total
+    items {
+      sys {
+        id
+      }
+      text
+      title
+      likes
+    }
+  }
+}
+
+query GetCommentById($id: String!) {
+  comment(id: $id) {
+    sys {
+      id
+    }
+    text
+    title
+    likes
+  }
+}

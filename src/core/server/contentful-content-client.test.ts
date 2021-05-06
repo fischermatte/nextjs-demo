@@ -1,23 +1,18 @@
-import {createApolloClient} from './contentful-content-client'
-import {gql} from '@apollo/client/core'
+import {createApolloClient, createGraphqlClient} from './contentful-content-client'
+import {GetAllCommentsDocument} from '../../graphql/__generated__/graphql'
 
-test('ContentClient', async () => {
+test('ApolloClient', async () => {
   const client = createApolloClient()
   expect(client).toBeDefined()
   const {data} = await client.query({
-    query: gql`
-      query comments {
-        commentCollection {
-          total
-          items {
-            sys {
-              id
-            }
-            text
-          }
-        }
-      }
-    `,
+    query: GetAllCommentsDocument,
   })
   expect(data).toBeDefined()
+})
+
+test('GraphqlClient', async () => {
+  const client = createGraphqlClient()
+  expect(client).toBeDefined()
+  const comments = await client.GetAllComments()
+  expect(comments).toBeDefined()
 })

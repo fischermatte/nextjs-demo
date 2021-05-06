@@ -34,10 +34,9 @@ const CommentDetailDialog: React.FC<Props> = props => {
 
   function onLike(event: BaseSyntheticEvent): void {
     event.stopPropagation()
-    api.incrementLikesOnComment(props.commentId).subscribe(totalLikes => {
+    api.incrementLikesOnComment(props.commentId).subscribe(comment => {
       setComment({
         ...comment,
-        likes: totalLikes,
       })
     })
   }

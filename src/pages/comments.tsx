@@ -6,7 +6,6 @@ import {GetServerSideProps, GetServerSidePropsContext} from 'next'
 import {Comment} from '../core/shared/comment.types'
 import {commentRepository} from '../core/server/comment.repository'
 import {api} from '../core/client/api'
-import {v4} from 'uuid'
 import {switchMap} from 'rxjs/operators'
 
 interface Props {
@@ -57,7 +56,6 @@ const Comments: React.FC<Props> = props => {
     e.preventDefault()
     api
       .addComment({
-        id: v4(),
         text: 'some text',
         title: 'some title',
         likes: 0,
