@@ -1,14 +1,14 @@
 @import 'variables.css';
 
 /* purgecss start ignore */
-@import 'tailwindcss/base.css';
-@import 'tailwindcss/components.css';
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
 /* purgecss end ignore */
 
 /* internal classes */
 @import 'typography.css';
 
-@import 'tailwindcss/utilities.css';
+@import 'tailwindcss/utilities';
 
 .btn {
   @apply py-2 px-4 rounded text-accent-dark bg-accent-normal;
